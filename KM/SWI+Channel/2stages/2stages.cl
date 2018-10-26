@@ -1,0 +1,61 @@
+#ifndef FLT_MAX
+#define FLT_MAX 3.40282347e+38
+#endif
+#define NUM_CLUSTERS 128
+#define NUM_FEATURE  8
+
+	channel float chan;
+
+
+__kernel 
+void kmeans_kernel_0(__global float  *restrict feature,   
+			  __global float  *restrict clusters,
+			    int     npoints,
+				int     nclusters,
+				int     nfeatures ) {
+
+	float l_clusters[NUM_CLUSTERS*NUM_FEATURE];
+	for (int i = 0; i < nclusters * nfeatures; i ++){
+		l_clusters[i] = clusters[i];
+	}
+
+	for (int point_id = 0; point_id < npoints; point_id ++) {
+			
+		//#pragma unroll UNROLL_FACTOR_OUTER
+		for (int i=0; i < nclusters; i++) {
+				
+			float ans  = 0;
+			//#pragma unroll 8
+			for (int l = 0; l < nfeatures; l++){
+				float cluster_tmp = l_clusters[i*nfeatures+l];
+				float feature_tmp = feature[l * npoints + point_id];
+				float sub_tmp = feature_tmp - cluster_tmp;
+				ans += sub_tmp * sub_tmp; 
+			}
+			write_channel_altera(chan, ans);
+		}
+	}	 
+}
+
+__kernel 
+void kmeans_kernel_1(__global int    *restrict membership,
+			    int     npoints,
+				int     nclusters ) {
+
+	for (int point_id = 0; point_id < npoints; point_id ++) {
+	
+		float min_dist = FLT_MAX;
+		int index = 0;
+			
+		//#pragma unroll UNROLL_FACTOR_OUTER
+		for (int i=0; i < nclusters; i++) {
+				
+			float dist = read_channel_altera(chan);
+			if(dist < min_dist){
+				min_dist = dist;
+				index = i;
+			}
+		}
+		membership[point_id] = index;
+	}	 
+}
