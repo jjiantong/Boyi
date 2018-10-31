@@ -141,7 +141,7 @@ int allocate(int n_points, int n_features, int n_clusters, float **feature)
 
 
 	// Create the program.
-	std::string binary_file = getBoardBinaryFile("private(rmfor)", clDeviceID);
+	std::string binary_file = getBoardBinaryFile("rm_for", clDeviceID);
 	printf("\nUsing AOCX:%s\n",binary_file.c_str());
 	clProgram = createProgramFromBinary(clContext, binary_file.c_str(), &clDeviceID, 1);	
 	CL_ERR();
