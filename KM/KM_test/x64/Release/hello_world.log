@@ -1,0 +1,36 @@
+﻿生成启动时间为 2018/10/31 星期三 下午 9:04:28。
+     1>项目“F:\work\rodinia\KM\hello_world.vcxproj”在节点 2 上(Build 个目标)。
+     1>InitializeBuildStatus:
+         正在对“x64\Release\KM.unsuccessfulbuild”执行 Touch 任务。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IF:\work\rodinia\KM\..\common\inc /Zi /nologo /W3 /WX- /O2 /Oi /GL /D NDEBUG /D WIN32 /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc110.pdb" /Gd /TP /errorReport:prompt -IC:/intelFPGA_pro/16.1/hld/host/include host\src\cluster.cpp host\src\kmeans.cpp host\src\kmeans_clustering.cpp host\src\read_input.cpp ..\common\src\AOCLUtils\opencl.cpp ..\common\src\AOCLUtils\options.cpp
+         cluster.cpp
+     1>host\src\cluster.cpp(31): warning C4101: “rmse”: 未引用的局部变量
+         kmeans.cpp
+     1>f:\work\rodinia\km\host\src\timer.h(44): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+         kmeans_clustering.cpp
+         read_input.cpp
+     1>host\src\read_input.cpp(26): warning C4305: “初始化”: 从“double”到“float”截断
+     1>host\src\read_input.cpp(25): warning C4101: “line”: 未引用的局部变量
+     1>host\src\read_input.cpp(30): warning C4101: “len”: 未引用的局部变量
+         opencl.cpp
+         options.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\work\rodinia\KM\bin\host.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"F:\work\rodinia\KM\bin\host.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\work\rodinia\KM\bin\host.lib" /MACHINE:X64 /libpath:C:\intelFPGA_pro\16.1\hld\board\de5a_net_e1/windows64/lib /libpath:C:/intelFPGA_pro/16.1/hld/host/windows64/lib terasic_a10_mmd.lib alteracl.lib acl_emulator_kernel_rt.lib pkg_editor.lib libelf.lib acl_hostxml.lib x64\Release\cluster.obj
+         x64\Release\kmeans.obj
+         x64\Release\kmeans_clustering.obj
+         x64\Release\read_input.obj
+         x64\Release\opencl.obj
+         x64\Release\options.obj
+         正在生成代码
+     1>f:\work\rodinia\km\host\src\kmeans.cpp(194): warning C4715: “allocate”: 不是所有的控件路径都返回值
+         已完成代码的生成
+         hello_world.vcxproj -> F:\work\rodinia\KM\bin\host.exe
+       FinalizeBuildStatus:
+         正在删除文件“x64\Release\KM.unsuccessfulbuild”。
+         正在对“x64\Release\KM.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“F:\work\rodinia\KM\hello_world.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:15.09
