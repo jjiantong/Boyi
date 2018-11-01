@@ -29,20 +29,20 @@ Each tuple `(Ai, Bi, Ci, Di, Ei, Fi, Gi, Hi)` represents one observation with ei
 
 Path|Description
 -|-
-KM_test\ | a test sample using baseline.cl(in  `NDRange\`)
-&nbsp;&nbsp;&nbsp;&nbsp;KM.sln | Microsoft Visual Studio project for host program
-&nbsp;&nbsp;&nbsp;&nbsp;bin\ | host program, AOCX files
-&nbsp;&nbsp;&nbsp;&nbsp;device\ | top-level OpenCL kernel files
-&nbsp;&nbsp;&nbsp;&nbsp;host\src\ | host source files
-common\ | common configuration implementations
-NDRange\ | source code of multiple NDRange implementations
-SWI\ | source code of multiple single work-item(SWI) implementations
-NDRange+Channel\ | source code of multiple NDRange+Channel implementations
-SWI+Channel\ | source code of multiple SWI+Channel implementations
-KM_data.xlsx\ | experimental data about resource and performance
+`KM_test\` | a test sample using baseline.cl(in  `NDRange\`)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`KM.sln` | Microsoft Visual Studio project for host program
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`bin\` | host program, AOCX files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`device\` | top-level OpenCL kernel files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`host\src\` | host source files
+`common\` | common configuration implementations
+`NDRange\` | source code of multiple NDRange implementations
+`SWI\` | source code of multiple single work-item(SWI) implementations
+`NDRange+Channel\` | source code of multiple NDRange+Channel implementations
+`SWI+Channel\` | source code of multiple SWI+Channel implementations
+`KM_data.xlsx` | experimental data about resource and performance
 
 ## Usage
-We'd recommend you to compile and run the project in `KM_test\`, which implements `baseline` in `NDRange\`, through the following steps. After running successfully, you can replace the related code with other code in `NDRange\`, or `SWI\`, or `NDRange+Channel` or `SWI+Channel` to try whatever implementations you interested.
+We'd recommend you to compile and run the project in `KM_test\`, which implements `baseline` in `NDRange\`, through the following steps. After running successfully, you can replace the related code with other code in `NDRange\`, or `SWI\`, or `NDRange+Channel\` or `SWI+Channel\` to try whatever implementations you interested.
 
 Note: please make sure to build the OpenCL+FPGA environment before.
 See [Intel FPGA SDK for OpenCL Pro Edition: Getting Started Guide](https://www.intel.com/content/www/us/en/programmable/documentation/mwh1391807309901.html#mwh1391807297091 "Title") for more details.
