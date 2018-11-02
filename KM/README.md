@@ -9,6 +9,7 @@ The input file simply contains some random numbers. We set <i>n</i> = 25600, <i>
 ```
     A0 B0 C0 D0 E0 F0 G0 H0
     A1 B1 C1 D1 E1 F1 G1 H1
+    ......
 ```
 
 Each tuple `(Ai, Bi, Ci, Di, Ei, Fi, Gi, Hi)` represents one observation with eight features.
