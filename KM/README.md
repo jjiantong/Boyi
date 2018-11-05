@@ -35,6 +35,8 @@ Path|Description
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`bin\` | host program, AOCX files
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`device\` | top-level OpenCL kernel files
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`host\src\` | host source files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`input\` | input files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`output\` | output files
 `common\` | common configuration implementations
 `NDRange\` | source code of multiple NDRange implementations
 `SWI\` | source code of multiple single work-item(SWI) implementations
@@ -59,5 +61,5 @@ where <i>\<board></i> matches the board you want to target. If you are unsure of
 To compile the host program, build the project in Visual Studio 2010 (or later). The compiled host program will be located at `bin\host`.
 
 #### Running the Host Program
-To launch the host program, use <i>Ctrl + F5</i> or the following command:
+Before running the host program, you should have compiled the OpenCL kernel and the host program. To launch the host program, use <i>Ctrl + F5</i> or the following command:
 > bin\host
