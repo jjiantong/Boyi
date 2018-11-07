@@ -1,0 +1,28 @@
+﻿生成启动时间为 2018/7/14 星期六 下午 7:48:24。
+     1>项目“C:\jjt\altera\hpc\mandelbrot\mandelbrot.vcxproj”在节点 2 上(Build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“x64\Release\mandelbrot.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IC:\jjt\altera\hpc\mandelbrot\host\inc /IC:\jjt\altera\hpc\mandelbrot\..\common\inc /IC:\jjt\altera\hpc\mandelbrot\..\extlibs\inc /Zi /nologo /W3 /WX- /O2 /Oi /GL /D NDEBUG /D WIN32 /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D SDL_MAIN_HANDLED /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc110.pdb" /Gd /TP /errorReport:prompt -IC:/intelFPGA_pro/16.1/hld/host/include host\src\HardwareMandelbrot.cpp
+         HardwareMandelbrot.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\jjt\altera\hpc\mandelbrot\bin\host.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\jjt\altera\hpc\mandelbrot\..\extlibs\lib SDL2.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:\jjt\altera\hpc\mandelbrot\bin\host.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\jjt\altera\hpc\mandelbrot\bin\host.lib" /MACHINE:X64 /libpath:C:\intelFPGA_pro\16.1\hld\board\de5a_net_e1/windows64/lib /libpath:C:/intelFPGA_pro/16.1/hld/host/windows64/lib terasic_a10_mmd.lib alteracl.lib acl_emulator_kernel_rt.lib pkg_editor.lib libelf.lib acl_hostxml.lib x64\Release\HardwareMandelbrot.obj
+         x64\Release\Keyboard.obj
+         x64\Release\main.obj
+         x64\Release\Mandelbrot.obj
+         x64\Release\MandelbrotWindow.obj
+         x64\Release\Mouse.obj
+         x64\Release\StopWatch.obj
+         x64\Release\opencl.obj
+         x64\Release\options.obj
+         正在生成代码
+         已完成代码的生成
+         mandelbrot.vcxproj -> C:\jjt\altera\hpc\mandelbrot\bin\host.exe
+       FinalizeBuildStatus:
+         正在删除文件“x64\Release\mandelbrot.unsuccessfulbuild”。
+         正在对“x64\Release\mandelbrot.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“C:\jjt\altera\hpc\mandelbrot\mandelbrot.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:03.30
