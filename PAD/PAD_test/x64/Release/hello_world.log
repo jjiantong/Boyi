@@ -1,0 +1,33 @@
+﻿生成启动时间为 2018/11/6 星期二 下午 7:27:28。
+     1>项目“C:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\hello_world.vcxproj”在节点 2 上(Build 个目标)。
+     1>PrepareForBuild:
+         正在创建目录“C:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\bin\”。
+       InitializeBuildStatus:
+         正在创建“x64\Release\pad.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IC:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\..\common\inc /Zi /nologo /W3 /WX- /O2 /Oi /GL /D NDEBUG /D WIN32 /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc110.pdb" /Gd /TP /errorReport:prompt -IC:/intelFPGA_pro/16.1/hld/host/include host\src\kernel.cpp host\src\main.cpp ..\common\src\AOCLUtils\opencl.cpp ..\common\src\AOCLUtils\options.cpp
+         kernel.cpp
+     1>c:\jjt\opencl_applications_on_fpgas\pad\ndrange\host\src\support/partitioner.h(99): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>host\src\kernel.cpp(76): warning C4068: 未知的杂注
+     1>host\src\kernel.cpp(95): warning C4068: 未知的杂注
+         main.cpp
+     1>host\src\main.cpp(53): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+     1>host\src\main.cpp(93): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
+         opencl.cpp
+         options.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\bin\host.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\bin\host.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\bin\host.lib" /MACHINE:X64 /libpath:C:\intelFPGA_pro\16.1\hld\board\de5a_net_e1/windows64/lib /libpath:C:/intelFPGA_pro/16.1/hld/host/windows64/lib terasic_a10_mmd.lib alteracl.lib acl_emulator_kernel_rt.lib pkg_editor.lib libelf.lib acl_hostxml.lib x64\Release\kernel.obj
+         x64\Release\main.obj
+         x64\Release\opencl.obj
+         x64\Release\options.obj
+         正在生成代码
+         已完成代码的生成
+         hello_world.vcxproj -> C:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\bin\host.exe
+       FinalizeBuildStatus:
+         正在删除文件“x64\Release\pad.unsuccessfulbuild”。
+         正在对“x64\Release\pad.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“C:\jjt\OpenCL_applications_on_FPGAs\PAD\NDRange\hello_world.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:08.05
