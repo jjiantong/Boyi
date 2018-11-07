@@ -34,7 +34,7 @@ Path|Description
 `SWI\` | source code of multiple single work-item(SWI) implementations
 `NDRange+Channel\` | source code of multiple NDRange+Channel implementations
 `SWI+Channel\` | source code of multiple SWI+Channel implementations
-`KM_data.xlsx` | experimental data about resource and performance
+`HSTI_data.xlsx` | experimental data about resource and performance
 
 ## Usage
 We'd recommend you to compile and run the project in `HSTI_test\`, which implements `baseline` in `NDRange\`, through the following steps. After running successfully, you can replace the related code with other code in `NDRange\`, or `SWI\`, or `NDRange+Channel\` or `SWI+Channel\` to try whatever implementations you interested.
