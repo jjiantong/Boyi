@@ -1,0 +1,28 @@
+﻿生成启动时间为 2018/11/7 星期三 下午 10:36:17。
+     1>项目“C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\matrix_mult.vcxproj”在节点 2 上(Build 个目标)。
+     1>PrepareForBuild:
+         正在创建目录“C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\bin\”。
+       InitializeBuildStatus:
+         正在对“x64\Release\mm.unsuccessfulbuild”执行 Touch 任务。
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IC:\intelFPGA_pro\16.1\hld\host\include /IC:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\host\inc /IC:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\..\common\inc /Zi /nologo /W3 /WX- /O2 /Oi /GL /D NDEBUG /D WIN32 /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt host\src\main.cpp ..\common\src\AOCLUtils\opencl.cpp ..\common\src\AOCLUtils\options.cpp -IC:/intelFPGA_pro/16.1/hld/host/include 
+         main.cpp
+         opencl.cpp
+         options.cpp
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\bin\host.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Release\host.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\bin\host.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\bin\host.lib" /MACHINE:X64 x64\Release\main.obj
+         x64\Release\opencl.obj
+         x64\Release\options.obj /libpath:C:\intelFPGA_pro\16.1\hld\board\de5a_net_e1/windows64/lib /libpath:C:/intelFPGA_pro/16.1/hld/host/windows64/lib terasic_a10_mmd.lib alteracl.lib acl_emulator_kernel_rt.lib pkg_editor.lib libelf.lib acl_hostxml.lib
+         Generating code
+         Finished generating code
+         matrix_mult.vcxproj -> C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\bin\host.exe
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\bin\host.exe;#1" /manifest x64\Release\host.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         正在删除文件“x64\Release\mm.unsuccessfulbuild”。
+         正在对“x64\Release\mm.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“C:\jjt\OpenCL_applications_on_FPGAs\MM\MM_test\matrix_mult.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:06.56
