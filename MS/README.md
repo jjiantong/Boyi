@@ -5,6 +5,8 @@ The <b>Mandelbrot set</b> is the set of complex numbers <i>c</i> for which the f
 
 The default value of width and height of the window are 800 and  400 respectively, and they can be changed.
 
+This application is a demo provide by Intel FPGA. please see [Intel FPGA OpenCL Design Examples page](https://www.intel.com/content/www/us/en/programmable/products/design-software/embedded-software-developers/opencl/support.html "Title") for more details.
+
 
 ## Software & Hardware Requirement
 

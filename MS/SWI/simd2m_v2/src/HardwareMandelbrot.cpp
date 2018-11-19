@@ -113,7 +113,7 @@ int hardwareInitialize()
 
 
   // Create the program using the binary aocx file
-  std::string binary_file = getBoardBinaryFile("simd2_v2_manually", theDevices[0]);
+  std::string binary_file = getBoardBinaryFile("simd2m_v2", theDevices[0]);
   printf("Using AOCX: %s\n", binary_file.c_str());
   theProgram = createProgramFromBinary(theContext, binary_file.c_str(), theDevices, numDevices);
 
