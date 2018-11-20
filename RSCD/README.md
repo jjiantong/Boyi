@@ -6,7 +6,7 @@
 2. a evaluation stage measuring outlier counts and model errors
 
 The input file contains a file with a list of flow vectors from a video frame 
-with the format `(x, y, vx, vy)`. `(x, y)` is the tail of the vector, and `(vx, vy)` is the head.
+with the format `(x, y, vx, vy)`. `(x, y)` is the tail of the vector, and `(vx, vy)` is the head. The default value of <i>max_iter</i> is 2000, and it can be changed.
 
 
 ## Software & Hardware Requirement
