@@ -30,24 +30,26 @@ void kmeans_kernel_c(__global float  *restrict feature,
 	}
 
 	float p_feature[NUM_FEATURE];
-	p_feature[0] = feature[0 * npoints + point_id];
-	p_feature[1] = feature[1 * npoints + point_id];
-	p_feature[2] = feature[2 * npoints + point_id];
-	p_feature[3] = feature[3 * npoints + point_id];
-	p_feature[4] = feature[4 * npoints + point_id];
-	p_feature[5] = feature[5 * npoints + point_id];
-	p_feature[6] = feature[6 * npoints + point_id];
-	p_feature[7] = feature[7 * npoints + point_id];
+	p_feature[0] = feature[point_id * nfeatures + 0];
+	p_feature[1] = feature[point_id * nfeatures + 1];
+	p_feature[2] = feature[point_id * nfeatures + 2];
+	p_feature[3] = feature[point_id * nfeatures + 3];
+	p_feature[4] = feature[point_id * nfeatures + 4];
+	p_feature[5] = feature[point_id * nfeatures + 5];
+	p_feature[6] = feature[point_id * nfeatures + 6];
+	p_feature[7] = feature[point_id * nfeatures + 7];
 
     barrier(CLK_LOCAL_MEM_FENCE);	 
 	
 	float min_dist = FLT_MAX;
 			
+	#pragma unroll 4
 	for (int i=0; i < nclusters; i++) {
 				
 		float dist = 0;
 		float ans  = 0;
 
+		#pragma unroll 8
 		for (int l = 0; l < nfeatures; l++){
 			float cluster_tmp = l_clusters[i*nfeatures+l];
 			float feature_tmp = p_feature[l];
