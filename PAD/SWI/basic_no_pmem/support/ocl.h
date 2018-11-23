@@ -77,7 +77,7 @@ struct OpenCLSetup {
 
 
 		// Create the program.
-		std::string binary_file = getBoardBinaryFile("basic(not_use_pmem)", clDeviceID);
+		std::string binary_file = getBoardBinaryFile("basic_no_pmem", clDeviceID);
 		printf("\nUsing AOCX:%s\n",binary_file.c_str());
 		clProgram = createProgramFromBinary(clContext, binary_file.c_str(), &clDeviceID, 1);		
 		CL_ERR();
