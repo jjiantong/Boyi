@@ -88,7 +88,7 @@ struct OpenCLSetup {
 
 
 		// Create the program.
-		std::string binary_file = getBoardBinaryFile("1-1(8)-1", clDeviceID);
+		std::string binary_file = getBoardBinaryFile("1-1-1_ul64m", clDeviceID);
 		printf("\nUsing AOCX:%s\n",binary_file.c_str());
 		clProgram = createProgramFromBinary(clContext, binary_file.c_str(), &clDeviceID, 1);
 		
