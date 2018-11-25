@@ -1,0 +1,27 @@
+﻿生成启动时间为 2018/11/19 星期一 下午 10:16:07。
+     1>项目“C:\jjt\OpenCL_applications_on_FPGAs\CEDD\CEDD_test\hello_world.vcxproj”在节点 2 上(Build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“x64\Release\CEDD.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IC:\jjt\OpenCL_applications_on_FPGAs\CEDD\CEDD_test\..\common\inc /IC:\intelFPGA_pro\16.1\hld\host\include /IC:\intelFPGA_pro\16.1\hld\host\include\CL /Zi /nologo /W3 /WX- /O2 /Oi /GL /D NDEBUG /D WIN32 /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc110.pdb" /Gd /TP /errorReport:prompt -IC:/intelFPGA_pro/16.1/hld/host/include host\src\main.cpp
+         main.cpp
+     1>host\src\main.cpp(83): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
+     1>host\src\main.cpp(84): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
+     1>host\src\main.cpp(85): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
+     1>host\src\main.cpp(86): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\jjt\OpenCL_applications_on_FPGAs\CEDD\CEDD_test\bin\host.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:\jjt\OpenCL_applications_on_FPGAs\CEDD\CEDD_test\bin\host.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\jjt\OpenCL_applications_on_FPGAs\CEDD\CEDD_test\bin\host.lib" /MACHINE:X64 /libpath:C:\intelFPGA_pro\16.1\hld\board\de5a_net_e1/windows64/lib /libpath:C:/intelFPGA_pro/16.1/hld/host/windows64/lib terasic_a10_mmd.lib alteracl.lib acl_emulator_kernel_rt.lib pkg_editor.lib libelf.lib acl_hostxml.lib x64\Release\kernel.obj
+         x64\Release\main.obj
+         x64\Release\opencl.obj
+         x64\Release\options.obj
+         正在生成代码
+         已完成代码的生成
+         hello_world.vcxproj -> C:\jjt\OpenCL_applications_on_FPGAs\CEDD\CEDD_test\bin\host.exe
+       FinalizeBuildStatus:
+         正在删除文件“x64\Release\CEDD.unsuccessfulbuild”。
+         正在对“x64\Release\CEDD.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“C:\jjt\OpenCL_applications_on_FPGAs\CEDD\CEDD_test\hello_world.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:03.81
