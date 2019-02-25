@@ -1,6 +1,8 @@
 // Define the color black as 0
 #define BLACK 0x00000000
 
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable
+
 // Mandelbrot set: zn+1 = zn^2 + c;
 
 typedef struct {
