@@ -7,15 +7,7 @@
 3. non-maximum suppression to make edges thinner;
 4. hysteresis to suppress weak edges not connected to strong ones.
 
-
-## Software & Hardware Requirement
-
-- Quartus Prime Design Software: 16.1 or later
-- Intel FPGA SDK for OpenCL: 16.1 or later
-- Intel FPGA Runtime Environment for OpenCL: 16.1 or later
-- Board Support Package: 16.1-compatible
-- Board Hardware
-- Microsoft Visual Studio: 2010 or later
+This application is from Chai benchmarks. Please see [the original repo](https://github.com/chai-benchmarks/chai "Title") for more details.
 
 
 ## Packet Structure
@@ -41,8 +33,10 @@ Path|Description
 ## Usage
 We'd recommend you to compile and run the project in `CEDD_test\`, which implements `baseline` in `NDRange\`, through the following steps. After running successfully, you can replace the related code with other code in `NDRange\`, or `SWI\`, or `NDRange+Channel\` or `SWI+Channel\` to try whatever implementations you interested.
 
-Note: please make sure to build the OpenCL+FPGA environment before.
-See [Intel FPGA SDK for OpenCL Pro Edition: Getting Started Guide](https://www.intel.com/content/www/us/en/programmable/documentation/mwh1391807309901.html#mwh1391807297091 "Title") for more details.
+**NOTE**: please make sure to build the OpenCL+FPGA environment before.
+1. See [Intel FPGA SDK for OpenCL Pro Edition: Getting Started Guide](https://www.intel.com/content/www/us/en/programmable/documentation/mwh1391807309901.html#mwh1391807297091 "Title") for details of installing Intel OpenCL SDK. 
+2. Refer to vendor's manual for detailed steps of installing FPGA board and driver. The step of installation can be different for different FPGA board and operating system. For Terasic DE5a-Net board, please refer to [DE5a-Net OpenCL Manual](http://download.terasic.com/downloads/cd-rom/de5a-net/linux_BSP/I2/DE5ANET_I2_OpenCL_16.1.pdf "Title")
+
 
 #### Compiling the OpenCL Kernel
 To compile the OpenCL kernel, run:
