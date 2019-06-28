@@ -32,7 +32,7 @@ struct Timer {
         stopTime[name] = getCurrentTimestamp();
 		//time[name] += (stopTime[name].tv_sec - startTime[name].tv_sec) * 1000000.0 +
         //              (stopTime[name].tv_usec - startTime[name].tv_usec);
-		time[name] = stopTime[name] - startTime[name];
+		time[name] += stopTime[name] - startTime[name];
 
     }
 
