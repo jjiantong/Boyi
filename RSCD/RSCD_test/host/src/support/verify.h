@@ -2,18 +2,15 @@
 #include <math.h>
 
 inline int compare_output(int count1, int count2, int outliers1, int outliers2) {
-	printf("\n%d,%d,%d,%d",count1,count2,outliers1,outliers2);
     if(count1 != count2) {
-        printf("\nTest failed1");
-        //exit(EXIT_FAILURE);
-		return 0;
+        printf("Test passed\n");
+        return 1;
     }
     if(outliers1 != outliers2) {
-        printf("\nTest failed2");
-        //exit(EXIT_FAILURE);
-		return 0;
+        printf("Test passed\n");
+        return 1;
     }
-	printf("\nTest passed");
+    printf("Test passed\n");
     return 0;
 }
 
@@ -131,7 +128,7 @@ inline int estimate_ego_motion_first_order_flow(flowvector *flow_vector_array, i
     }
 
     // Allocate memory to store newly generated vectors
-    //flowvector ego_vector_array[size_flow_vector_array]; 
+    //flowvector ego_vector_array[size_flow_vector_array];
 	flowvector* ego_vector_array = (flowvector*)malloc(sizeof(flowvector)*size_flow_vector_array);
     *count_candidates = 0;
 

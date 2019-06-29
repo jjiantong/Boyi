@@ -1,18 +1,20 @@
-﻿生成启动时间为 2018/11/2 星期五 下午 5:45:08。
+﻿生成启动时间为 2019/6/29 星期六 下午 9:55:44。
      1>项目“C:\jjt\OpenCL_applications_on_FPGAs\RSCD\RSCD_test\hello_world.vcxproj”在节点 2 上(Build 个目标)。
-     1>InitializeBuildStatus:
+     1>PrepareForBuild:
+         正在创建目录“C:\jjt\OpenCL_applications_on_FPGAs\RSCD\RSCD_test\bin\”。
+       InitializeBuildStatus:
          正在创建“x64\Release\RSCD.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IC:\jjt\OpenCL_applications_on_FPGAs\RSCD\RSCD_test\..\common\inc /Zi /nologo /W3 /WX- /O2 /Oi /GL /D NDEBUG /D WIN32 /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc110.pdb" /Gd /TP /errorReport:prompt -IC:/intelFPGA_pro/16.1/hld/host/include host\src\main.cpp ..\common\src\AOCLUtils\opencl.cpp ..\common\src\AOCLUtils\options.cpp
          main.cpp
-     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(31): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(32): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/partitioner.h(30): warning C4244: “=”: 从“float”转换到“unsigned int”，可能丢失数据
+     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(28): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(29): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(46): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
      1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(49): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(52): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(61): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(62): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-     1>host\src\main.cpp(84): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-     1>host\src\main.cpp(129): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
+     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(58): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>c:\jjt\opencl_applications_on_fpgas\rscd\rscd_test\host\src\support/verify.h(59): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>host\src\main.cpp(88): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
          opencl.cpp
          options.cpp
        Link:
@@ -29,4 +31,4 @@
 
 生成成功。
 
-已用时间 00:00:05.90
+已用时间 00:00:06.80

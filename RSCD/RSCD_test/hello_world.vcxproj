@@ -116,7 +116,7 @@ by the laws of the United States of America.
     <ClCompile Include="..\common\src\AOCLUtils\*.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="device\baseline.cl" />
+    <None Include="device\rscd.cl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

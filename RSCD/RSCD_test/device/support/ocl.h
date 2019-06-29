@@ -5,7 +5,6 @@
 #include "CL/opencl.h"
 #include "AOCLUtils/aocl_utils.h"
 
-
 using namespace aocl_utils;
 
 // Allocation error checking
@@ -28,20 +27,28 @@ using namespace aocl_utils;
         exit(-1);                                                                                                      \
     }
 
-
 struct OpenCLSetup {
 
     cl_context       clContext;
     cl_command_queue clCommandQueue;
     cl_program       clProgram;
-	cl_kernel        clKernel;
+    cl_kernel        clKernel;
     cl_device_id     clDeviceID;
 
 
     OpenCLSetup(int platform, int device) {
-		
         cl_int  clStatus;
-        	
+        
+/*		
+		cl_uint clNumPlatforms;
+        clStatus = clGetPlatformIDs(0, NULL, &clNumPlatforms);
+        CL_ERR();
+        cl_platform_id *clPlatforms = new cl_platform_id[clNumPlatforms];
+        clStatus                    = clGetPlatformIDs(clNumPlatforms, clPlatforms, NULL);
+        CL_ERR();
+        char           clPlatformVendor[128];
+        char           clPlatformVersion[128];
+*/		
 
 		// Get the OpenCL platform.
 		cl_platform_id clPlatform = NULL;
@@ -50,6 +57,21 @@ struct OpenCLSetup {
 			printf("ERROR: Unable to find Intel(R) FPGA OpenCL platform.\n");
 		}
 
+/*
+        char           clVendorName[128];
+        for(int i = 0; i < clNumPlatforms; i++) {
+            clStatus =
+                clGetPlatformInfo(clPlatforms[i], CL_PLATFORM_VENDOR, 128 * sizeof(char), clPlatformVendor, NULL);
+            CL_ERR();
+            std::string clVendorName(clPlatformVendor);
+            if(clVendorName.find(clVendorName) != std::string::npos) {
+                clPlatform = clPlatforms[i];
+                if(i == platform)
+                    break;
+            }
+        }
+        delete[] clPlatforms;
+*/
 
 		// Query the available OpenCL device.
         cl_uint clNumDevices;
@@ -65,7 +87,6 @@ struct OpenCLSetup {
 			printf("  %s\n", getDeviceName(clDevices[i]).c_str());
 		}
 
-
 		// Create the context.
 		clContext = clCreateContext(NULL, clNumDevices, clDevices, &oclContextCallback, NULL, &clStatus);
         CL_ERR();
@@ -76,20 +97,43 @@ struct OpenCLSetup {
 
 
 		// Command queue.
+#ifdef OCL_2_0
+        cl_queue_properties prop[] = {0};
+        clCommandQueue             = clCreateCommandQueueWithProperties(clContext, clDevices[device], prop, &clStatus);
+#else
         clCommandQueue = clCreateCommandQueue(clContext, clDevices[device], 0, &clStatus);
+#endif
         CL_ERR();
 
+        
+		
+/*		
+		std::filebuf clFile;
+        clFile.open("bfs.cl", std::ios::in);
+        if (!clFile.is_open()) {
+            std::cerr << "Unable to open ./kernel.cl. Exiting...\n";
+            exit(EXIT_FAILURE);
+        }
+        std::istream in(&clFile);
+        std::string  clCode(std::istreambuf_iterator<char>(in), (std::istreambuf_iterator<char>()));
+
+        const char *clSource[] = {clCode.c_str()};
+        clProgram              = clCreateProgramWithSource(clContext, 1, clSource, NULL, &clStatus);
+*/
 
 		// Create the program.
-		std::string binary_file;
-		binary_file = getBoardBinaryFile("baseline", clDeviceID);
+		std::string binary_file = getBoardBinaryFile("baseline", clDeviceID);
 		printf("\nUsing AOCX:%s\n",binary_file.c_str());
 		clProgram = createProgramFromBinary(clContext, binary_file.c_str(), &clDeviceID, 1);
+		
 		CL_ERR();
 
-
         char clOptions[50];
+#ifdef OCL_2_0
+        sprintf(clOptions, "-I. -cl-std=CL2.0");
+#else
         sprintf(clOptions, "-I.");
+#endif
 
 
 		// Build the program that was just created.
@@ -109,7 +153,7 @@ struct OpenCLSetup {
 
 
 		// Kernel.
-		clKernel  = clCreateKernel(clProgram, "RANSAC_kernel_block", &clStatus);
+        clKernel  = clCreateKernel(clProgram, "RANSAC_kernel_block", &clStatus);
         CL_ERR();
     }
 

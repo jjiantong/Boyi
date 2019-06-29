@@ -1,95 +1,155 @@
 #define _OPENCL_COMPILER_
 
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable
 #pragma OPENCL EXTENSION cl_khr_global_int32_base_atomics : enable
 #pragma OPENCL EXTENSION cl_khr_global_int32_extended_atomics : enable
 
+#define FPGA
+
 #include "support/common.h"
+#include "support/partitioner.h"
 
 // OpenCL baseline kernel ------------------------------------------------------------------------------------------
-// Generate model on FPGA side
-int gen_model_param(int x1, int y1, int vx1, int vy1, int x2, int y2, int vx2, int vy2, float *model_param) {
-    float temp;
-    // xc -> model_param[0], yc -> model_param[1], D -> model_param[2], R -> model_param[3]
-    temp = (float)((vx1 * (vx1 - (2 * vx2))) + (vx2 * vx2) + (vy1 * vy1) - (vy2 * ((2 * vy1) - vy2)));
-    if(temp == 0) { // Check to prevent division by zero
-        return (0);
-    }
-    model_param[0] = (((vx1 * ((-vx2 * x1) + (vx1 * x2) - (vx2 * x2) + (vy2 * y1) - (vy2 * y2))) +
-                          (vy1 * ((-vy2 * x1) + (vy1 * x2) - (vy2 * x2) - (vx2 * y1) + (vx2 * y2))) +
-                          (x1 * ((vy2 * vy2) + (vx2 * vx2)))) /
-                      temp);
-    model_param[1] = (((vx2 * ((vy1 * x1) - (vy1 * x2) - (vx1 * y1) + (vx2 * y1) - (vx1 * y2))) +
-                          (vy2 * ((-vx1 * x1) + (vx1 * x2) - (vy1 * y1) + (vy2 * y1) - (vy1 * y2))) +
-                          (y2 * ((vx1 * vx1) + (vy1 * vy1)))) /
-                      temp);
-
-    temp = (float)((x1 * (x1 - (2 * x2))) + (x2 * x2) + (y1 * (y1 - (2 * y2))) + (y2 * y2));
-    if(temp == 0) { // Check to prevent division by zero
-        return (0);
-    }
-    model_param[2] = ((((x1 - x2) * (vx1 - vx2)) + ((y1 - y2) * (vy1 - vy2))) / temp);
-    model_param[3] = ((((x1 - x2) * (vy1 - vy2)) + ((y2 - y1) * (vx1 - vx2))) / temp);
-    return (1);
-}
-
-__kernel 
-void RANSAC_kernel_block(int flowvector_count, int error_threshold, float convergence_threshold,
-    __global flowvector *restrict flowvectors,
-    __global int *restrict random_numbers, __global int *restrict model_candidate, __global int *restrict outliers_candidate, 
-    __global int *g_out_id ) {
-    
-    const size_t iter = get_global_id(0);
-
-    float vx_error, vy_error;
-    int   outlier_local_count = 0;
-
-	//__global float *model_param = &model_param_local[4 * iter]; 
-	float model_param[4] = {0,0,0,0};
-	// xc=model_param[0], yc=model_param[1], D=model_param[2], R=model_param[3]
- 
-	// Select two random flow vectors
-	flowvector fv[2];
-    int rand_num = random_numbers[iter * 2 + 0];
-    fv[0]    = flowvectors[rand_num];
-    rand_num = random_numbers[iter * 2 + 1];
-    fv[1]    = flowvectors[rand_num];
-
-    int ret = 0;
-    int vx1 = fv[0].vx - fv[0].x;
-    int vy1 = fv[0].vy - fv[0].y;
-    int vx2 = fv[1].vx - fv[1].x;
-    int vy2 = fv[1].vy - fv[1].y;
-
-    // Function to generate model parameters according to F-o-F (xc, yc, D and R)
-    ret = gen_model_param(fv[0].x, fv[0].y, vx1, vy1, fv[1].x, fv[1].y, vx2, vy2, model_param);
-    if(ret == 0)
-		model_param[0] = -2011;
-    
-    if(model_param[0] != -2011){
-		// Reset local outlier counter
-		outlier_local_count = 0;
-
-		// Compute number of outliers
-		for(int i = 0; i < flowvector_count; i ++) {
-			flowvector fvreg = flowvectors[i]; // x, y, vx, vy
-			vx_error = fvreg.x + ((int)((fvreg.x - model_param[0]) * model_param[2]) -
-								 (int)((fvreg.y - model_param[1]) * model_param[3])) -
-					   fvreg.vx;
-			vy_error = fvreg.y + ((int)((fvreg.y - model_param[1]) * model_param[2]) +
-								 (int)((fvreg.x - model_param[0]) * model_param[3])) -
-					   fvreg.vy;
-			if((fabs(vx_error) >= error_threshold) || (fabs(vy_error) >= error_threshold)) {
-				outlier_local_count++;
-			}
-		}
-
-		// Compare to threshold
-		if(outlier_local_count < flowvector_count * convergence_threshold) {
-			int index                 = atomic_add(g_out_id, 1);
-			outliers_candidate[index] = outlier_local_count;
-			model_candidate[index]    = iter;
-		}
+// Generate model on GPU side
+int gen_model_param(int x1, int y1, int vx1, int vy1, int x2, int y2, int vx2, int vy2, __global float *model_param){
+	float temp;
+	// xc -> model_param[0], yc -> model_param[1], D -> model_param[2], R -> model_param[3]
+	temp = (float)((vx1 *(vx1 - (2*vx2))) + (vx2 * vx2) + (vy1 * vy1) - (vy2 * ((2*vy1) - vy2)));
+	if(temp == 0) { // Check to prevent division by zero
+		return(0);
 	}
-   
+	model_param[0] = (((vx1 * ((-vx2*x1) + (vx1*x2) - (vx2*x2) + (vy2*y1) - (vy2*y2))) + (vy1 * ((-vy2*x1) + (vy1*x2) - (vy2*x2) - (vx2*y1) + (vx2*y2) )) + (x1 * ((vy2* vy2) + (vx2 * vx2)))) / temp);
+	model_param[1] = (((vx2 * ((vy1*x1) - (vy1*x2) - (vx1*y1) + (vx2*y1) - (vx1*y2))) + (vy2 * ((-vx1*x1) + (vx1*x2) - (vy1*y1) + (vy2*y1) - (vy1*y2))) + (y2 * ((vx1 * vx1) + (vy1 * vy1)))) / temp);
+
+	temp = (float)((x1 * (x1 - (2*x2))) + (x2 * x2) + (y1 * (y1 - (2*y2))) + (y2 * y2));
+	if(temp == 0) { // Check to prevent division by zero
+		return(0);
+	}
+	model_param[2] = ((((x1 - x2) * (vx1 - vx2)) + ((y1 - y2) * (vy1 - vy2))) / temp);
+	model_param[3] = ((((x1 - x2) * (vy1 - vy2)) + ((y2 - y1) * (vx1 - vx2))) / temp);
+	return(1);
 }
 
+#ifndef FPGA
+__kernel void RANSAC_kernel_block(__global float* model_param_local,
+    __global flowvector* flowvectors, int flowvector_count, __global int* random_numbers, int max_iter, int error_threshold, float convergence_threshold,
+#ifdef OCL_2_0
+    __global atomic_int* g_out_id,
+    __local atomic_int* outlier_block_count,
+#else
+    __global int* g_out_id,
+    __local int* outlier_block_count,
+#endif
+    __global int* model_candidate, __global int* outliers_candidate,
+    Partitioner p
+#ifdef OCL_2_0
+    , __local int*  tmp
+    , __global atomic_int* wl){
+#else
+    ){
+#endif
+#else 
+__kernel void RANSAC_kernel_block(__global float* restrict model_param_local,
+    __global flowvector* restrict flowvectors, int flowvector_count, __global int* restrict random_numbers, int max_iter, int error_threshold, float convergence_threshold,
+#ifdef OCL_2_0
+    __global atomic_int* g_out_id,
+    __local atomic_int* outlier_block_count,
+#else
+    __global int* restrict g_out_id,
+    __local int* restrict outlier_block_count,
+#endif
+    __global int* restrict model_candidate, __global int* restrict outliers_candidate,
+    __constant Partitioner* p
+#ifdef OCL_2_0
+    , __local int*  restrict tmp
+    , __global atomic_int* wl){
+#else
+    ){
+#endif
+#endif
+    const unsigned int tx = get_local_id(0);
+    const unsigned int bx = get_group_id(0);
+    const unsigned int num_blocks = get_num_groups(0);
+    float vx_error, vy_error;
+    int outlier_local_count = 0;
+
+    // Each block performs one iteration
+#ifdef OCL_2_0
+    for(int iter = gpu_first(&p, bx, tmp, wl); gpu_more(&p, iter); iter = gpu_next(&p, iter, num_blocks, tmp, wl)){
+#else
+#ifdef FPGA
+    for(int iter = gpu_first(p, bx); gpu_more(p, iter); iter = gpu_next(iter, num_blocks)){
+#else
+    for(int iter = gpu_first(&p, bx); gpu_more(&p, iter); iter = gpu_next(&p,iter, num_blocks)){
+#endif
+#endif
+        __global float* model_param = &model_param_local[4*iter];	// xc=model_param_sh[0], yc=model_param_sh[1], D=model_param_sh[2], R=model_param_sh[3]
+        // Thread 0 computes F-o-F model (SISD phase)
+        if(tx == 0){
+#ifdef OCL_2_0
+            atomic_store(&outlier_block_count[0], 0);
+#else
+            outlier_block_count[0] = 0;
+#endif
+            // Select two random flow vectors
+            int rand_num = random_numbers[iter * 2 + 0];
+            flowvector fv[2];
+            fv[0] = flowvectors[rand_num];
+            rand_num = random_numbers[iter * 2 + 1];
+            fv[1] = flowvectors[rand_num];
+
+            int ret = 0;
+            int vx1 = fv[0].vx - fv[0].x;
+            int vy1 = fv[0].vy - fv[0].y;
+            int vx2 = fv[1].vx - fv[1].x;
+            int vy2 = fv[1].vy - fv[1].y;
+
+            // Function to generate model parameters according to F-o-F (xc, yc, D and R)
+            ret = gen_model_param(fv[0].x, fv[0].y, vx1, vy1, fv[1].x, fv[1].y, vx2, vy2, model_param);
+            if(ret == 0) model_param[0] = -2011;
+
+        }
+        barrier(CLK_LOCAL_MEM_FENCE);
+
+        if(model_param[0] == -2011) continue;
+
+        // SIMD phase
+        // Reset local outlier counter
+        outlier_local_count = 0;
+
+        // Compute number of outliers
+        for(int i = tx; i < flowvector_count; i += get_local_size(0)){
+            flowvector fvreg = flowvectors[i]; // x, y, vx, vy
+            vx_error = fvreg.x + ((int)((fvreg.x - model_param[0]) * model_param[2]) - (int)((fvreg.y - model_param[1]) * model_param[3])) - fvreg.vx;
+            vy_error = fvreg.y + ((int)((fvreg.y - model_param[1]) * model_param[2]) + (int)((fvreg.x - model_param[0]) * model_param[3])) - fvreg.vy;
+            if((fabs(vx_error) >= error_threshold) || (fabs(vy_error) >= error_threshold)) {
+                outlier_local_count++;
+            }
+        }
+#ifdef OCL_2_0
+        atomic_fetch_add(&outlier_block_count[0], outlier_local_count);
+#else
+        atomic_add(&outlier_block_count[0], outlier_local_count);
+#endif
+
+        barrier(CLK_LOCAL_MEM_FENCE);
+        if(tx == 0){
+            // Compare to threshold
+            #ifdef OCL_2_0
+            if(atomic_load(&outlier_block_count[0]) < flowvector_count*convergence_threshold){
+            #else
+            if(outlier_block_count[0] < flowvector_count*convergence_threshold){
+            #endif
+                #ifdef OCL_2_0
+                int index = atomic_fetch_add(g_out_id, 1);
+                outliers_candidate[index] = atomic_load(&outlier_block_count[0]);
+                #else
+                int index = atomic_add(g_out_id, 1);
+                outliers_candidate[index] = outlier_block_count[0];
+                #endif
+                model_candidate[index] = iter;
+            }
+        }
+
+    }
+}

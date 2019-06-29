@@ -74,7 +74,7 @@ by the laws of the United States of America.
     <ClCompile Include="..\common\src\AOCLUtils\options.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="device\baseline.cl">
+    <None Include="device\rscd.cl">
       <Filter>OpenCL Kernel Files</Filter>
     </None>
   </ItemGroup>
