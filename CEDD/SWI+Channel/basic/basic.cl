@@ -9,7 +9,8 @@ __constant int   sobx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
 __constant int   soby[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
 
 
-	channel unsigned char chan;
+	channel unsigned char chan1;
+	channel unsigned char chan2;
 
 // https://github.com/smskelley/canny-opencl
 // Gaussian Kernel
@@ -175,8 +176,23 @@ __kernel void non_max_supp_kernel(	__global unsigned char *data,
 				default: out = my_magnitude; break;
 			
 			}
-			write_channel_altera(chan, out);
+			write_channel_altera(chan1, out);
 
+		}
+	}
+
+	for (int row = 0; row < rows; row ++){
+		for (int col = 0; col < cols; col ++){
+
+			int pos = row * cols + col;
+
+			if(row != 0 && row != rows - 1){
+				if(col != 0 && col != cols - 1){
+					continue;
+				}
+			}
+
+			write_channel_altera(chan2, data[pos]);
 		}
 	}
 }
@@ -187,16 +203,16 @@ __kernel void non_max_supp_kernel(	__global unsigned char *data,
 // out: image output data (8B1C)
 __kernel void hyst_kernel(__global unsigned char *out, int cols, int rows) {
     
+	float lowThresh  = 10;
+	float highThresh = 70;
+	const unsigned char EDGE = 255;
+	
 	for (int row = 1; row < rows - 1; row ++){
 		for (int col = 1; col < cols - 1; col ++){
 
 			int pos = row * cols + col;
 
-			float lowThresh  = 10;
-			float highThresh = 70;
-			const unsigned char EDGE = 255;
-
-			unsigned char magnitude = read_channel_altera(chan);
+			unsigned char magnitude = read_channel_altera(chan1);
 
 			if(magnitude >= highThresh)
 				out[pos] = EDGE;
@@ -209,9 +225,35 @@ __kernel void hyst_kernel(__global unsigned char *out, int cols, int rows) {
 					out[pos] = EDGE;
 				else
 					out[pos] = 0;
-			}
-			
+			}			
 		}
 	}
 
+	for (int row = 0; row < rows; row ++){
+		for (int col = 0; col < cols; col ++){
+
+			int pos = row * cols + col;
+
+			if(row != 0 && row != rows - 1){
+				if(col != 0 && col != cols - 1){
+					continue;
+				}
+			}
+
+			unsigned char magnitude = read_channel_altera(chan2);
+
+			if(magnitude >= highThresh)
+				out[pos] = EDGE;
+			else if(magnitude <= lowThresh)
+				out[pos] = 0;
+			else {
+				float med = (highThresh + lowThresh) / 2;
+
+				if(magnitude >= med)
+					out[pos] = EDGE;
+				else
+					out[pos] = 0;
+			}	
+		}
+	}
 }

@@ -184,8 +184,8 @@ __kernel void non_max_supp_kernel(__global unsigned char *data, __global unsigne
 // out: image output data (8B1C)
 __kernel void hyst_kernel(__global unsigned char *data, __global unsigned char *out, int cols, int rows) {
     
-	for (int row = 1; row < rows - 1; row ++){
-		for (int col = 1; col < cols - 1; col ++){
+	for (int row = 0; row < rows; row ++){
+		for (int col = 0; col < cols; col ++){
 
 			int pos = row * cols + col;
 
