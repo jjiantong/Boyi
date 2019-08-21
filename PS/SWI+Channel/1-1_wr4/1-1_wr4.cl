@@ -1,5 +1,5 @@
 
-	channel int4 chan_in;
+	channel int4 chan_in __attribute__((depth(64)));
 
 __kernel void prefixSum_in(	__global int *restrict input,
 							const uint in_size)
@@ -14,18 +14,16 @@ __kernel void prefixSum_in(	__global int *restrict input,
 __kernel void prefixSum(__global int *restrict output, 
 						const uint in_size)
 {
-	output[0] = 0;
+	int4 tmp_buff;
+    tmp_buff.s0 = 0;
     int size = in_size / 4;
-	for(int i = 1; i < size; i++){
+	for(int i = 0; i < size; i++){
 		int4 in = read_channel_altera(chan_in);
-        output[4*i-3] = output[4*i-4] + in.s0;
-        output[4*i-2] = output[4*i-3] + in.s1;
-        output[4*i-1] = output[4*i-2] + in.s2;
-        output[4*i]   = output[4*i-1] + in.s3;
+        tmp_buff.s1 = tmp_buff.s0 + in.s0;
+        tmp_buff.s2 = tmp_buff.s1 + in.s1;
+        tmp_buff.s3 = tmp_buff.s2 + in.s2;
+        ((__global int4*)output)[i] = tmp_buff;
+        tmp_buff.s0 = tmp_buff.s3 + in.s3;
 	}
-    int4 in = read_channel_altera(chan_in);
-    output[in_size-3] = output[in_size-4] + in.s0;
-    output[in_size-2] = output[in_size-3] + in.s1;
-    output[in_size-1] = output[in_size-2] + in.s2;
 }
 

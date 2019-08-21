@@ -1,5 +1,5 @@
 
-	channel int8 chan_in;
+	channel int8 chan_in __attribute__((depth(64)));
 
 __kernel void prefixSum_in(	__global int *restrict input,
 							const uint in_size)
@@ -14,26 +14,20 @@ __kernel void prefixSum_in(	__global int *restrict input,
 __kernel void prefixSum(__global int *restrict output, 
 						const uint in_size)
 {
-	output[0] = 0;
+	int8 tmp_buff;
+    tmp_buff.s0 = 0;
     int size = in_size / 8;
-	for(int i = 1; i < size; i++){
+	for(int i = 0; i < size; i++){
 		int8 in = read_channel_altera(chan_in);
-        output[8*i-7] = output[8*i-8] + in.s0;
-        output[8*i-6] = output[8*i-7] + in.s1;
-        output[8*i-5] = output[8*i-6] + in.s2;
-        output[8*i-4] = output[8*i-5] + in.s3;
-        output[8*i-3] = output[8*i-4] + in.s4;
-        output[8*i-2] = output[8*i-3] + in.s5;
-        output[8*i-1] = output[8*i-2] + in.s6;
-        output[8*i]   = output[8*i-1] + in.s7;
+        tmp_buff.s1 = tmp_buff.s0 + in.s0;
+        tmp_buff.s2 = tmp_buff.s1 + in.s1;
+        tmp_buff.s3 = tmp_buff.s2 + in.s2;
+        tmp_buff.s4 = tmp_buff.s3 + in.s3;
+        tmp_buff.s5 = tmp_buff.s4 + in.s4;
+        tmp_buff.s6 = tmp_buff.s5 + in.s5;
+        tmp_buff.s7 = tmp_buff.s6 + in.s6;
+        ((__global int8*)output)[i] = tmp_buff;
+        tmp_buff.s0 = tmp_buff.s7 + in.s7;
 	}
-    int8 in = read_channel_altera(chan_in);
-    output[in_size-7] = output[in_size-8] + in.s0;
-    output[in_size-6] = output[in_size-7] + in.s1;
-    output[in_size-5] = output[in_size-6] + in.s2;
-    output[in_size-4] = output[in_size-5] + in.s3;
-    output[in_size-3] = output[in_size-4] + in.s4;
-    output[in_size-2] = output[in_size-3] + in.s5;
-    output[in_size-1] = output[in_size-2] + in.s6;
 }
 

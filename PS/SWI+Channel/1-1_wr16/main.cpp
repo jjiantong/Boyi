@@ -31,7 +31,9 @@ struct Params {
 		n_work_groups	= 512;
         n_warmup        = 10;
         n_reps          = 100;
-        file_name       = "input/input.txt";   
+        file_name       = "input/input.txt";
+        
+
     }
 };
 
@@ -45,7 +47,7 @@ int main(int argc, char **argv) {
 
 	// Allocate
     timer.start("Allocation");
-	int in_size		   = p.n_work_items * p.n_work_groups * 2;
+	int in_size		   = p.n_work_items * p.n_work_groups * 2 * 16;
 	int *h_input	   = (int*)_aligned_malloc(in_size * sizeof(int), AOCL_ALIGNMENT);
 	int *h_output	   = (int*)_aligned_malloc(in_size * sizeof(int), AOCL_ALIGNMENT);
 	int *h_out_ref	   = (int*)_aligned_malloc(in_size * sizeof(int), AOCL_ALIGNMENT);
@@ -73,9 +75,9 @@ int main(int argc, char **argv) {
 
 	// Copy to device
     timer.start("Copy To Device");
-	clStatus = clEnqueueWriteBuffer(ocl.clCommandQueue, d_input, CL_TRUE, 0,
+	clStatus = clEnqueueWriteBuffer(ocl.clCommandQueue_in, d_input, CL_TRUE, 0,
 		in_size * sizeof(int), h_input, 0, NULL, NULL);
-	clFinish(ocl.clCommandQueue);
+	clFinish(ocl.clCommandQueue_in);
 	CL_ERR();
     timer.stop("Copy To Device");
     timer.print("Copy To Device", 1);
@@ -87,13 +89,21 @@ int main(int argc, char **argv) {
 			timer.start("Kernel-FPGA");			
 
 		// Set arguments
-        clSetKernelArg(ocl.clKernel, 0, sizeof(cl_mem), &d_output);
-        clSetKernelArg(ocl.clKernel, 1, sizeof(cl_mem), &d_input);
-		clSetKernelArg(ocl.clKernel, 2, sizeof(int), &in_size);
+        clSetKernelArg(ocl.clKernel_in, 0, sizeof(cl_mem), &d_input);
+		clSetKernelArg(ocl.clKernel_in, 1, sizeof(int), &in_size);
+        // Kernel launch
+        clStatus = clEnqueueTask(
+            ocl.clCommandQueue_in, ocl.clKernel_in, 0, NULL, NULL);
+        CL_ERR();
+
+		clSetKernelArg(ocl.clKernel, 0, sizeof(cl_mem), &d_output);
+		clSetKernelArg(ocl.clKernel, 1, sizeof(int), &in_size);
         // Kernel launch
         clStatus = clEnqueueTask(
             ocl.clCommandQueue, ocl.clKernel, 0, NULL, NULL);
         CL_ERR();
+
+		clFinish(ocl.clCommandQueue_in);
 		clFinish(ocl.clCommandQueue);
 		
 		if(rep >= p.n_warmup)

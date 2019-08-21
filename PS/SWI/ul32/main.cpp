@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 
 	// Allocate
     timer.start("Allocation");
-	int in_size		   = p.n_work_items * p.n_work_groups * 2;
+	int in_size		   = p.n_work_items * p.n_work_groups * 2 * 16;
 	int *h_input	   = (int*)_aligned_malloc(in_size * sizeof(int), AOCL_ALIGNMENT);
 	int *h_output	   = (int*)_aligned_malloc(in_size * sizeof(int), AOCL_ALIGNMENT);
 	int *h_out_ref	   = (int*)_aligned_malloc(in_size * sizeof(int), AOCL_ALIGNMENT);

@@ -30,9 +30,11 @@ using namespace aocl_utils;
 struct OpenCLSetup {
 
     cl_context       clContext;
-    cl_command_queue clCommandQueue;
+    cl_command_queue clCommandQueue_in;
+	cl_command_queue clCommandQueue;
     cl_program       clProgram;
-    cl_kernel        clKernel;
+    cl_kernel        clKernel_in;
+	cl_kernel        clKernel;
     cl_device_id     clDeviceID;
 
 
@@ -72,13 +74,14 @@ struct OpenCLSetup {
 
 
 		// Command queue.
-        clCommandQueue = clCreateCommandQueue(clContext, clDevices[device], 0, &clStatus);
+        clCommandQueue_in = clCreateCommandQueue(clContext, clDevices[device], 0, &clStatus);
+		clCommandQueue	  = clCreateCommandQueue(clContext, clDevices[device], 0, &clStatus);
         CL_ERR();
 
 
 
 		// Create the program.
-		std::string binary_file = getBoardBinaryFile("pmem", clDeviceID);
+		std::string binary_file = getBoardBinaryFile("1-1_wr16", clDeviceID);
 		printf("\nUsing AOCX:%s\n",binary_file.c_str());
 		clProgram = createProgramFromBinary(clContext, binary_file.c_str(), &clDeviceID, 1);
 		
@@ -105,14 +108,17 @@ struct OpenCLSetup {
 
 
 		// Kernel.
-        clKernel = clCreateKernel(clProgram, "prefixSum", &clStatus);
+        clKernel_in = clCreateKernel(clProgram, "prefixSum_in", &clStatus);
+		clKernel	= clCreateKernel(clProgram, "prefixSum", &clStatus);
         CL_ERR();
     }
 
     void release() {
-        clReleaseKernel(clKernel);
+        clReleaseKernel(clKernel_in);
+		clReleaseKernel(clKernel);
         clReleaseProgram(clProgram);
-        clReleaseCommandQueue(clCommandQueue);
+        clReleaseCommandQueue(clCommandQueue_in);
+		clReleaseCommandQueue(clCommandQueue);
         clReleaseContext(clContext);
     }
 };
