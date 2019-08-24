@@ -1,0 +1,10 @@
+digraph "CFG for 'blockAddition_kernel' function" {
+	label="CFG for 'blockAddition_kernel' function";
+
+	Node0x9da5aa0 [shape=record,label="{entry:\l  %call = tail call i64 @get_global_id(i32 0) #2\l  %conv = trunc i64 %call to i32\l  %call1 = tail call i64 @get_group_id(i32 0) #2\l  %call3 = tail call i64 @get_local_id(i32 0) #2\l  %conv4 = trunc i64 %call3 to i32\l  %cmp = icmp eq i32 %conv4, 0\l  br i1 %cmp, label %if.then, label %if.end\l|{<s0>T|<s1>F}}"];
+	Node0x9da5aa0:s0 -> Node0x9da7450;
+	Node0x9da5aa0:s1 -> Node0x9da7520;
+	Node0x9da7450 [shape=record,label="{if.then:                                          \l  %sext = shl i64 %call1, 32\l  %idxprom = ashr exact i64 %sext, 32\l  %arrayidx = getelementptr inbounds i32, i32* %input, i64 %idxprom\l  %0 = load i32, i32* %arrayidx, align 4, !tbaa !7\l  store i32 %0, i32* @blockAddition_kernel.value.0, align 4, !tbaa !7\l  br label %if.end\l}"];
+	Node0x9da7450 -> Node0x9da7520;
+	Node0x9da7520 [shape=record,label="{if.end:                                           \l  tail call void @barrier(i32 1) #2\l  %1 = load i32, i32* @blockAddition_kernel.value.0, align 4, !tbaa !7\l  %mul = shl nsw i32 %conv, 1\l  %idxprom6 = sext i32 %mul to i64\l  %arrayidx7 = getelementptr inbounds i32, i32* %output, i64 %idxprom6\l  %2 = load i32, i32* %arrayidx7, align 4, !tbaa !7\l  %add = add nsw i32 %2, %1\l  store i32 %add, i32* %arrayidx7, align 4, !tbaa !7\l  %add9 = or i32 %mul, 1\l  %idxprom10 = sext i32 %add9 to i64\l  %arrayidx11 = getelementptr inbounds i32, i32* %output, i64 %idxprom10\l  %3 = load i32, i32* %arrayidx11, align 4, !tbaa !7\l  %add12 = add nsw i32 %3, %1\l  store i32 %add12, i32* %arrayidx11, align 4, !tbaa !7\l  ret void\l}"];
+}

@@ -1,0 +1,13 @@
+digraph "CFG for 'hyst_kernel' function" {
+	label="CFG for 'hyst_kernel' function";
+
+	Node0x92ffc50 [shape=record,label="{entry:\l  %call = tail call i64 @get_global_id(i32 1) #3\l  %conv = trunc i64 %call to i32\l  %call1 = tail call i64 @get_global_id(i32 0) #3\l  %conv2 = trunc i64 %call1 to i32\l  %mul = mul nsw i32 %conv, %cols\l  %add = add nsw i32 %mul, %conv2\l  %idxprom = sext i32 %add to i64\l  %arrayidx = getelementptr inbounds i8, i8* %data, i64 %idxprom\l  %0 = load i8, i8* %arrayidx, align 1, !tbaa !7\l  %cmp = icmp ugt i8 %0, 69\l  br i1 %cmp, label %if.end20, label %if.else\l|{<s0>T|<s1>F}}"];
+	Node0x92ffc50:s0 -> Node0x92ffb50;
+	Node0x92ffc50:s1 -> Node0x9300b00;
+	Node0x9300b00 [shape=record,label="{if.else:                                          \l  %cmp8 = icmp ult i8 %0, 11\l  br i1 %cmp8, label %if.end20, label %if.else11\l|{<s0>T|<s1>F}}"];
+	Node0x9300b00:s0 -> Node0x92ffb50;
+	Node0x9300b00:s1 -> Node0x9300d20;
+	Node0x9300d20 [shape=record,label="{if.else11:                                        \l  %cmp15 = icmp ugt i8 %0, 39\l  %. = sext i1 %cmp15 to i8\l  br label %if.end20\l}"];
+	Node0x9300d20 -> Node0x92ffb50;
+	Node0x92ffb50 [shape=record,label="{if.end20:                                         \l  %output.1 = phi i8 [ %., %if.else11 ], [ -1, %entry ], [ 0, %if.else ]\l  %arrayidx22 = getelementptr inbounds i8, i8* %out, i64 %idxprom\l  store i8 %output.1, i8* %arrayidx22, align 1, !tbaa !7\l  ret void\l}"];
+}
