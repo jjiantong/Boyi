@@ -1,15 +1,21 @@
-# OpenCL_applications_on_FPGAs
+# Boyi
+
+A systematic framework for optimizing OpenCL applications on FPGAs
 
 ## Overview
 This repository contains:
-- Source code of 11 OpenCL applications (in four execution models)
-- Resource consumption details and absolute performance numbers of our experiments on a Terasic DE5a-Net board with an Altera Arria 10 GX FPGA and 8GB 2-bank DDR3 device memory
+- PART ONE: 11 OpenCL applications on FPGAs
+    - Source code of all the optimization combinations under four execution models
+    - Detailed resource consumption and absolute performance numbers of our experiments
+- PART TWO: an LLVM-based automatic tool to determine whether to use two emerging OpenCL features
 
 This work explores the optimization combinations on FPGAs for four high-level execution models: NDRange kernel (*NDR*), Single work-item kernel (*SWI*), NDRange kernel+OpenCL channel (*NDR+C*), Single work-item kernel+OpenCL channel (*SWI+C*). 
 
-And our goal is to determine the most suitable execution model based on the presence or absence of three OpenCL patterns: Atomic Operation (*AO*), Multi-Pass Scheme (MPS) and Kernel-to-Kernel Communication (KKC).
+And our goal is to assist OpenCL programmers to determine the most suitable execution model based on the presence or absence of three OpenCL patterns: Atomic Operation (*AO*), Multi-Pass Scheme (MPS) and Kernel-to-Kernel Communication (KKC).
 
-## Applications
+
+The 11 OpenCL applications include:
+
 Application|Description|Source
 -|-|-
 BFS | Breadth-First Search | Chai benchmarks
@@ -26,7 +32,11 @@ PS | Prefix Sum | CUDA demos
 
 For more information, you can refer to [Chai benchmarks](https://github.com/chai-benchmarks/chai "Title"), [Rodinia benchmarks](https://rodinia.cs.virginia.edu/doku.php "Title"), [Intel OpenCL demos](https://www.intel.com/content/www/us/en/programmable/products/design-software/embedded-software-developers/opencl/support.html "Title") and [CUDA demos](https://developer.nvidia.com/gpugems/GPUGems3/gpugems3_ch39.html "Title").
 
-## Software & Hardware Requirement
+
+
+## PART ONE: OpenCL applications on FPGAs
+
+### Software & Hardware Requirement
 
 The evaluation of the work requires Intel Quartus Prime software (including OpenCL SDK for FPGA), its license, and FPGA hardware. The FPGA synthesis software and FPGA hardware used in this work are listed below:
 
@@ -43,3 +53,7 @@ The evaluation of the work requires Intel Quartus Prime software (including Open
 You can find the source code, resource consumption details and absolute performance numbers under each application folder.
 
 **NOTE**: please refer to README under each application folder for more information and usage.
+
+
+
+## PART TWO: LLVM based automatic tool
