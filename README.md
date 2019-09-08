@@ -48,12 +48,107 @@ The evaluation of the work requires Intel Quartus Prime software (including Open
 - Operating system: Windows 7
 - Host compiler: Microsoft Visual Studio 2010
 
-## Usage
+### Packet Structure
 
-You can find the source code, resource consumption details and absolute performance numbers under each application folder.
+(Take CEDD application as an example:)
 
-**NOTE**: please refer to README under each application folder for more information and usage.
+Path|Description
+-|-
+`CEDD\` | OpenCL application
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CEDD_test\` | a test sample using baseline.cl(in  `NDRange\`)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`cedd.sln` | Microsoft Visual Studio project for host program
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`bin\` | host program, AOCX files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`device\` | top-level OpenCL kernel files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`host\src\` | host source files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`input\` | input files
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`common\` | common configuration implementations
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`NDRange\` | source code of all the optimization combinations under NDRange execution model
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`SWI\` | source code of all the optimization combinations under single work-item(SWI) execution model
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`NDRange+Channel\` | source code of all the optimization combinations under NDRange+Channel execution model
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`SWI+Channel\` | source code of all the optimization combinations under SWI+Channel execution model
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CEDD_data.xlsx` | Detailed resource consumption and absolute performance numbers
+
+### Usage
+
+(Take CEDD application as an example:)
+
+We'd recommend you to compile and run the project in `CEDD_test\`, which implements `baseline.cl` in `NDRange\`, through the following steps. After running successfully, you can replace the related code with other code in `NDRange\`, or `SWI\`, or `NDRange+Channel\` or `SWI+Channel\` to try whatever implementations you interested.
+
+**NOTE**: please make sure to build the OpenCL+FPGA environment before.
+1. See [Intel FPGA SDK for OpenCL Pro Edition: Getting Started Guide](https://www.intel.com/content/www/us/en/programmable/documentation/mwh1391807309901.html#mwh1391807297091 "Title") for details of installing Intel OpenCL SDK. 
+2. Refer to vendor's manual for detailed steps of installing FPGA board and driver. The step of installation can be different for different FPGA board and operating system. For Terasic DE5a-Net board, please refer to [DE5a-Net OpenCL Manual](http://download.terasic.com/downloads/cd-rom/de5a-net/linux_BSP/I2/DE5ANET_I2_OpenCL_16.1.pdf "Title")
+
+
+#### Compiling the OpenCL Kernel
+To compile the OpenCL kernel, run:
+```
+aoc device\baseline.cl -o bin\baseline.aocx --board <i>\<board></i>
+```
+
+where <i>\<board></i> matches the board you want to target. If you are unsure of the boards available, use the following command to list available boards:
+```
+aoc --list-boards
+```
+
+#### Compiling the Host Program
+To compile the host program, build the project in Visual Studio 2010 (or later). The compiled host program will be located at `bin\host`.
+
+#### Running the Host Program
+Before running the host program, you should have compiled the OpenCL kernel and the host program. To launch the host program, use <i>Ctrl + F5</i> or the following command:
+```
+bin\host
+```
 
 
 
 ## PART TWO: LLVM based automatic tool
+
+
+### Software & Hardware Requirement
+
+We use Ubuntu 14.04 and Clang 9.0.0. Please see [Getting Started with the LLVM System - Requirements](https://llvm.org/docs/GettingStarted.html#requirements "Title") to find detailed software and hardware requirements.
+
+
+### Usage
+
+Please refer to LLVM's documentations for details of configuring and compiling LLVM. An LLVM getting started guideline can be found [here](https://llvm.org/docs/GettingStarted.html "Title"). Or you can start to use our LLVM tool quickly following the steps below:
+
+If you have already finished configuring the LLVM environment, please start with Step 3.
+
+#### Step 1: Checking out the LLVM project
+```
+git clone https://github.com/llvm/llvm-project.git
+```
+
+#### Step 2:  Building LLVM and Clang
+```
+cd llvm-project
+mkdir build
+cmake -DLLVM_ENABLE_PROJECTS=clang -G "Unix Makefiles" ../llvm
+make
+make install
+```
+Then you can try it out:
+```
+clang --version
+```
+You may get:
+```
+clang version 9.0.0 (https://github.com/llvm/llvm-project.git 75afc0105c089171f9d85d59038617fb222c38cd)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /usr/local/bin
+```
+
+#### Step 3: Using Boyi
+- Move ```Boyi/LLVM_based_automatic_tool/app/``` folder and ```Boyi/LLVM_based_automatic_tool/run.sh``` file to the same directory as ```llvm-project``` folder.
+- Replace ```llvm-project/llvm/lib/Transforms``` folder with ```Boyi/LLVM_based_automatic_tool/Transforms``` folder.
+- Change directory to llvm-project/..
+  ```
+  cd llvm-project/..
+  ```
+- Run:
+  ```
+  /run.sh
+  ```
+
