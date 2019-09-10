@@ -106,12 +106,18 @@ bin\host
 
 ### Software & Hardware Requirement
 
-We use Ubuntu 14.04 and Clang 9.0.0. Please see [Getting Started with the LLVM System - Requirements](https://llvm.org/docs/GettingStarted.html#requirements "Title") to find detailed software and hardware requirements.
+In our work, Clang 9.0.0 and LLVM9.0.0 are first installed in Ubuntu 14.04. Please see [Getting Started with the LLVM System - Requirements](https://llvm.org/docs/GettingStarted.html#requirements "Title") to find detailed software and hardware requirements.
 
+
+### Packet Structure
+
+- The `apps` folder contains the OpenCL kernel code and the host C/C++ code of the 11 OpenCL applications.
+- The `Transforms` folder mainly contains the LLVM passes for IR analyzation.
+- The `run.sh` file is the shell script.
 
 ### Usage
 
-Please refer to LLVM's documentations for details of configuring and compiling LLVM. An LLVM getting started guideline can be found [here](https://llvm.org/docs/GettingStarted.html "Title"). Or you can start to use our LLVM tool quickly following the steps below:
+Please refer to LLVM's documentations for details of configuring and compiling LLVM. An LLVM getting started guideline can be found [here](https://llvm.org/docs/GettingStarted.html "Title"). Or you can start to use our LLVM tool (in a Linux environment) quickly following the steps below:
 
 If you have already finished configuring the LLVM environment, please start with Step 3.
 
@@ -141,14 +147,11 @@ InstalledDir: /usr/local/bin
 ```
 
 #### Step 3: Using Boyi
-- Move ```Boyi/LLVM_based_automatic_tool/app/``` folder and ```Boyi/LLVM_based_automatic_tool/run.sh``` file to the same directory as ```llvm-project``` folder.
-- Replace ```llvm-project/llvm/lib/Transforms``` folder with ```Boyi/LLVM_based_automatic_tool/Transforms``` folder.
-- Change directory to llvm-project/..
+- Move the ```apps``` folder and the ```run.sh``` file to the same directory as the ```llvm-project``` folder.
+- Replace the ```llvm-project/llvm/lib/Transforms``` folder with the ```Transforms``` folder.
+- Change directory to llvm-project/.. and run:
   ```
   cd llvm-project/..
-  ```
-- Run:
-  ```
   /run.sh
   ```
 
