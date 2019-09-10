@@ -71,13 +71,13 @@ fi
 
 # determine the most suitable execution model
 echo "Execution model:"
-[ $ao -eq 0 -a $mps -eq 0 -a $kkc -eq 0 ] && echo "1" >ExecModel.in
-[ $ao -eq 0 -a $mps -eq 0 -a $kkc -eq 1 ] && echo "3" >ExecModel.in
-[ $ao -eq 0 -a $mps -eq 1 -a $kkc -eq 0 ] && echo "2" >ExecModel.in
-[ $ao -eq 0 -a $mps -eq 1 -a $kkc -eq 1 ] && echo "4" >ExecModel.in
-[ $ao -eq 1 -a $mps -eq 0 -a $kkc -eq 0 ] && echo "2" >ExecModel.in
-[ $ao -eq 1 -a $mps -eq 0 -a $kkc -eq 1 ] && echo "4" >ExecModel.in
-[ $ao -eq 1 -a $mps -eq 1 -a $kkc -eq 0 ] && echo "2" >ExecModel.in
-[ $ao -eq 1 -a $mps -eq 1 -a $kkc -eq 1 ] && echo "4" >ExecModel.in
-opt -load /root/Work/llvm/llvm-project/build/lib/LLVMExecModel.so -execmodel $name.ll 1>/dev/null || exit
+[ $ao -eq 0 -a $mps -eq 0 -a $kkc -eq 0 ] && echo "1" >Model.in
+[ $ao -eq 0 -a $mps -eq 0 -a $kkc -eq 1 ] && echo "3" >Model.in
+[ $ao -eq 0 -a $mps -eq 1 -a $kkc -eq 0 ] && echo "2" >Model.in
+[ $ao -eq 0 -a $mps -eq 1 -a $kkc -eq 1 ] && echo "4" >Model.in
+[ $ao -eq 1 -a $mps -eq 0 -a $kkc -eq 0 ] && echo "2" >Model.in
+[ $ao -eq 1 -a $mps -eq 0 -a $kkc -eq 1 ] && echo "4" >Model.in
+[ $ao -eq 1 -a $mps -eq 1 -a $kkc -eq 0 ] && echo "2" >Model.in
+[ $ao -eq 1 -a $mps -eq 1 -a $kkc -eq 1 ] && echo "4" >Model.in
+opt -load /root/Work/llvm/llvm-project/build/lib/LLVMModel.so -model $name.ll 1>/dev/null || exit
 echo -e "\n---------The End---------\n"

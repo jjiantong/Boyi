@@ -148,7 +148,19 @@ InstalledDir: /usr/local/bin
 
 #### Step 3: Using Boyi
 - Move the ```apps``` folder and the ```run.sh``` file to the same directory as the ```llvm-project``` folder.
-- Replace the ```llvm-project/llvm/lib/Transforms``` folder with the ```Transforms``` folder.
+- Add all the folders in the ```analysis_passes``` folder to the ```llvm-project/llvm/lib/Transforms``` folder.
+- Copy the following lines into ```llvm-project/llvm/lib/Transforms/CMakeLists.txt```:
+  ```
+  add_subdirectory(HasAO)
+  add_subdirectory(NumOfKernels)
+  add_subdirectory(IsSameBuff)
+  add_subdirectory(IsRdWr)
+  add_subdirectory(IsSameMAP)
+  add_subdirectory(IsSequential)
+  add_subdirectory(VarBuffInHost)
+  add_subdirectory(VarBuffInKernel)
+  add_subdirectory(Model)
+  ```
 - Change directory to llvm-project/.. and run:
   ```
   cd llvm-project/..
