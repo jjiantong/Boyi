@@ -2,7 +2,7 @@
 # from the hello plugin.
 if( NOT LLVM_REQUIRES_RTTI )
   if( NOT LLVM_REQUIRES_EH )
-    set(LLVM_EXPORTED_SYMBOL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/Model.exports)
+    set(LLVM_EXPORTED_SYMBOL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/FPGAModel.exports)
   endif()
 endif()
 
@@ -10,8 +10,8 @@ if(WIN32 OR CYGWIN)
   set(LLVM_LINK_COMPONENTS Core Support)
 endif()
 
-add_llvm_library( LLVMModel MODULE BUILDTREE_ONLY
-  Model.cpp
+add_llvm_library( LLVMFPGAModel MODULE BUILDTREE_ONLY
+  FPGAModel.cpp
 
   DEPENDS
   intrinsics_gen

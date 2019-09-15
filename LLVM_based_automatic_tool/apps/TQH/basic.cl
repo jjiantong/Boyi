@@ -11,21 +11,24 @@ void TQHistogram_gpu(__global task_t *queue, __global int *data, __global int *h
 	int histogram[SIZE];
 	task_t t;
 
-	for(int i = 0; i < gpuQueueSize; ++i) {
+	#pragma unroll 1
+	for(int i = 0; i < 320; ++i) {
 		
 		t.id = queue[i].id;
 		t.op = queue[i].op;
 
-		for(int j = 0; j < n_bins; j++) {
+		for(int j = 0; j < 256; j++) {
 			histogram[j] = 0;
 		}
 
-		for(int j = 0; j < frame_size; j++) {
+		#pragma unroll 1		
+		for(int j = 0; j < 101376; j++) {
 			int value = (data[(t.id - offset) * frame_size + j] * n_bins) >> 8;
 			histogram[value]++;
 		}
 
-		for(int j = 0; j < n_bins; j++) {
+		#pragma unroll 1		
+		for(int j = 0; j < 256; j++) {
 			histo[(t.id - offset) * n_bins + j] = histogram[j];
 		}
 

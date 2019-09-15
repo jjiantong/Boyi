@@ -1,5 +1,4 @@
 #define _OPENCL_COMPILER_
-#define SIZE 40000
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
 
 #include "support/common.h"
@@ -9,12 +8,13 @@ __kernel
 void Padding_kernel(int n, int m, int pad, __global Taa *matrix) {
 
     const int matrix_size = m * (n + pad);
-	double reg[SIZE];
+	double reg[40000];
 
-	for(int i = 0; i < SIZE; i++)
+	for(int i = 0; i < 40000; i++)
 		reg[i] = matrix[i];
 
-	for(int i = matrix_size - 1; i >= 0; --i) {
+	#pragma unroll 1	
+	for(int i = 39999; i >= 0; --i) {
 		int x = i % (n + pad);
 		int y = i / (n + pad);
 		if(x < n)
@@ -23,7 +23,7 @@ void Padding_kernel(int n, int m, int pad, __global Taa *matrix) {
 			reg[y * (n + pad) + x] = 0.0f;
 	}
 
-	for(int i = 0; i < SIZE; i++)
+	for(int i = 0; i < 40000; i++)
 		matrix[i] = reg[i];
 
 

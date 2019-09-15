@@ -1,31 +1,23 @@
-; ModuleID = 'SWI.cl'
-source_filename = "SWI.cl"
+; ModuleID = 'basic.cl'
+source_filename = "basic.cl"
 target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: nounwind uwtable
 define dso_local spir_kernel void @Padding_kernel(i32 %n, i32 %m, i32 %pad, double* nocapture %matrix) local_unnamed_addr #0 !kernel_arg_addr_space !3 !kernel_arg_access_qual !4 !kernel_arg_type !5 !kernel_arg_base_type !5 !kernel_arg_type_qual !6 {
 entry:
-  %matrix73 = bitcast double* %matrix to i8*
+  %matrix71 = bitcast double* %matrix to i8*
   %reg = alloca [40000 x double], align 16
   %0 = bitcast [40000 x double]* %reg to i8*
   %add = add nsw i32 %pad, %n
-  %mul = mul nsw i32 %add, %m
   call void @llvm.lifetime.start.p0i8(i64 320000, i8* nonnull %0) #2
-  call void @llvm.memcpy.p0i8.p0i8.i64(i8* nonnull align 16 %0, i8* align 8 %matrix73, i64 320000, i1 false)
-  %cmp570 = icmp sgt i32 %mul, 0
-  br i1 %cmp570, label %for.body7, label %for.cond28.preheader
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* nonnull align 16 %0, i8* align 8 %matrix71, i64 320000, i1 false)
+  br label %for.body7
 
-for.cond28.preheader:                             ; preds = %if.end, %entry
-  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 8 %matrix73, i8* nonnull align 16 %0, i64 320000, i1 false)
-  call void @llvm.lifetime.end.p0i8(i64 320000, i8* nonnull %0) #2
-  ret void
-
-for.body7:                                        ; preds = %entry, %if.end
-  %i3.071.in = phi i32 [ %i3.071, %if.end ], [ %mul, %entry ]
-  %i3.071 = add nsw i32 %i3.071.in, -1
-  %rem = srem i32 %i3.071, %add
-  %div = sdiv i32 %i3.071, %add
+for.body7:                                        ; preds = %if.end, %entry
+  %i3.069 = phi i32 [ %dec, %if.end ], [ 39999, %entry ]
+  %rem = srem i32 %i3.069, %add
+  %div = sdiv i32 %i3.069, %add
   %cmp10 = icmp slt i32 %rem, %n
   br i1 %cmp10, label %if.then, label %if.else
 
@@ -53,8 +45,14 @@ if.else:                                          ; preds = %for.body7
   br label %if.end
 
 if.end:                                           ; preds = %if.else, %if.then
-  %cmp5 = icmp sgt i32 %i3.071, 0
-  br i1 %cmp5, label %for.body7, label %for.cond28.preheader
+  %dec = add nsw i32 %i3.069, -1
+  %cmp5 = icmp eq i32 %i3.069, 0
+  br i1 %cmp5, label %for.body31.preheader, label %for.body7, !llvm.loop !11
+
+for.body31.preheader:                             ; preds = %if.end
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 8 %matrix71, i8* nonnull align 16 %0, i64 320000, i1 false)
+  call void @llvm.lifetime.end.p0i8(i64 320000, i8* nonnull %0) #2
+  ret void
 }
 
 ; Function Attrs: argmemonly nounwind
@@ -85,3 +83,5 @@ attributes #2 = { nounwind }
 !8 = !{!"double", !9, i64 0}
 !9 = !{!"omnipotent char", !10, i64 0}
 !10 = !{!"Simple C/C++ TBAA"}
+!11 = distinct !{!11, !12}
+!12 = !{!"llvm.loop.unroll.count", i32 1}

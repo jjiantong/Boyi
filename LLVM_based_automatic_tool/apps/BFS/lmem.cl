@@ -23,9 +23,16 @@ void BFS_fpga(__global Node * restrict graph_nodes_av, __global Edge * restrict 
         Node cur_node;
         cur_node.x = graph_nodes_av[pid].x;
         cur_node.y = graph_nodes_av[pid].y;
+        int l_color[8];
+        int cnt = 0;
+        for(int i = cur_node.x; i < cur_node.y + cur_node.x; i++) {
+            int id         = graph_edges_av[i].x;
+            l_color[cnt++] = color[id];
+        }
+        cnt = 0;
         for(int i = cur_node.x; i < cur_node.y + cur_node.x; i++) {
             int id        = graph_edges_av[i].x;
-            if(color[id] < BLACK) { 
+            if(l_color[cnt++] < BLACK) { 
 				color[id] = BLACK;    
                 q2[tail_bin] = id;
 				tail_bin++;

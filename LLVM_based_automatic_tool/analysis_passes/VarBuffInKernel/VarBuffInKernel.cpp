@@ -1,4 +1,4 @@
-#define APP "PS"
+#define APP "RSCD"
 
 #include <iostream>
 #include <sstream>
@@ -391,7 +391,6 @@ namespace {
             // two operands
             if(i->getNumOperands() == 2) {
               Value *op0 = i->getOperand(0);
-              Value *op1 = i->getOperand(1);
               // op0 = inst
               if(Instruction *op = dyn_cast<Instruction>(op0)) {
                 if(op->isIdenticalTo(inst)) {
@@ -1059,7 +1058,6 @@ namespace {
                     Value *la0 = i2->getOperand(0);
                     Value *la1 = i2->getOperand(1);
                     Instruction *ila0 = dyn_cast<Instruction>(la0);
-                    Instruction *ila1 = dyn_cast<Instruction>(la1);
                     // find the other operand to test
                     Value *la = (i0 == ila0) ? la1 : la0; //errs() << "operand: " << *la << '\n'; 
                     std::string sla;
@@ -1153,7 +1151,6 @@ namespace {
                                   compi = i2; //errs() << "comp~\n";
                                   // find which operand is the former inst and record the other one
                                   Value *v0 = i2->getOperand(0);
-                                  Value *v1 = i2->getOperand(1);
                                   if(Instruction *iv0 = dyn_cast<Instruction>(v0)) {                                   
                                     if(iv0 == i0) opidx = 1;  // operand 0 is the former inst
                                     else          opidx = 0;

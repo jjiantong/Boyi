@@ -12,16 +12,22 @@ void Histogram_kernel(int size, int bins, float alpha, __global unsigned int *da
     
     unsigned int l_histo[256];
     
-    for(int pos = 0; pos < bins; pos++) {
+    for(int pos = 0; pos < 256; pos++) {
         l_histo[pos] = 0;
     }
 
-    for(int i = 0; i < size; i++) {
+    #pragma unroll 1
+    for(int i = 0; i < 157286400; i++) {
         unsigned int d = data[i];
         l_histo[((d * bins) >> 12)]++;
     }
 
-    for(int pos = 0; pos < bins; pos++) {
+    #pragma unroll 1
+    for(int pos = 0; pos < 256; pos++) {
         histo[pos] += l_histo[pos];
     }
 }
+
+
+
+
