@@ -1,6 +1,6 @@
 # Boyi
 
-A systematic framework for optimizing OpenCL applications on FPGAs
+A systematic framework for automatically deciding the right execution model for OpenCL applications on FPGAs (FPGA'20)
 
 ## Overview
 This repository contains:
